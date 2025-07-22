@@ -21,7 +21,7 @@ Add KeyArray to your project with Cargo:
 
 ```
 [dependencies]
-keyarray = "0.1.0"
+keyarray = "0.0.1-alpha"
 ```
 
 ---
