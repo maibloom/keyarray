@@ -35,20 +35,29 @@ where
     /// Create from any iterable of keys. Panics if empty.
     pub fn new(keys: impl IntoIterator<Item = K>) -> Self {
         let keys: Vec<K> = keys.into_iter().collect();
-        assert!(!keys.is_empty(), "KeyArray::new: must supply at least one key");
+        assert!(
+            !keys.is_empty(),
+            "KeyArray::new: must supply at least one key"
+        );
         KeyArray { keys, idx: 0 }
     }
 
     /// Same as `new`, but start at `start_idx`. Panics if out of bounds.
     pub fn new_with(keys: impl IntoIterator<Item = K>, start_idx: usize) -> Self {
         let keys: Vec<K> = keys.into_iter().collect();
-        assert!(!keys.is_empty(), "KeyArray::new_with: must supply keys");
+        assert!(
+            !keys.is_empty(),
+            "KeyArray::new_with: must supply keys"
+        );
         assert!(
             start_idx < keys.len(),
             "KeyArray::new_with: start_idx {} out of bounds",
             start_idx
         );
-        KeyArray { keys, idx: start_idx }
+        KeyArray {
+            keys,
+            idx: start_idx,
+        }
     }
 
     /// Change the current key by zero‐based index.
@@ -82,6 +91,11 @@ where
         self.keys.len()
     }
 
+    /// Returns true if there are no keys.
+    pub fn is_empty(&self) -> bool {
+        self.len() == 0
+    }
+
     /// Append a new key after the last.
     pub fn push(&mut self, key: K) {
         self.keys.push(key);
@@ -89,7 +103,11 @@ where
 
     /// Insert a key at position `i`. Panics if `i > len`.
     pub fn insert(&mut self, i: usize, key: K) {
-        assert!(i <= self.keys.len(), "KeyArray::insert: index {} out of bounds", i);
+        assert!(
+            i <= self.keys.len(),
+            "KeyArray::insert: index {} out of bounds",
+            i
+        );
         self.keys.insert(i, key);
         // if you inserted before current idx, bump it forward
         if i <= self.idx {
@@ -99,12 +117,16 @@ where
 
     /// Remove and return the key at `i`. Panics if out of bounds.
     pub fn remove(&mut self, i: usize) -> K {
-        assert!(i < self.keys.len(), "KeyArray::remove: index {} out of bounds", i);
+        assert!(
+            i < self.keys.len(),
+            "KeyArray::remove: index {} out of bounds",
+            i
+        );
         let removed = self.keys.remove(i);
         // adjust current index
         if self.idx >= self.keys.len() {
             // if we removed the last element, clamp idx
-            self.idx = self.keys.len() - 1;
+            self.idx = self.keys.len().saturating_sub(1);
         }
         removed
     }
@@ -167,5 +189,17 @@ mod tests {
         let ka = KeyArray::new(["Up", "Down"]);
         let s = format!("{}", ka);
         assert!(s.contains(r#"["Up", "Down"]"#) && s.contains("current_idx=0"));
+    }
+
+    #[test]
+    fn empty_and_len() {
+        let ka = KeyArray::new_with(["One"], 0);
+        assert!(!ka.is_empty());
+        assert_eq!(ka.len(), 1);
+
+        let mut empty = KeyArray::new(["X"]);
+        empty.remove(0);
+        assert!(empty.is_empty());
+        assert_eq!(empty.len(), 0);
     }
 }
