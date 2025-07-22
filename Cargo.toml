@@ -8,6 +8,7 @@ license      = "GPL-3.0-only"
 repository   = "https://github.com/maibloom/keyarray"
 homepage     = "https://github.com/maibloom/keyarray"
 readme       = "README.md"
+
 keywords     = [
   "keyarray",
   "mode",
@@ -15,6 +16,7 @@ keywords     = [
   "mutually-exclusive",
   "state",
 ]
+
 categories = ["data-structures"]
 
 include = [
