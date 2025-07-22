@@ -1,0 +1,20 @@
+[package]
+name        = "keyarray"
+version     = "0.0.1-alpha"
+edition     = "2021"
+authors     = ["Mai Bloom Tech Studio  <maibloomcontact@gmail.com>"]
+description = "A crate for modeling and managing mutually exclusive states (keys in a key array)"
+license     = "MIT OR Apache-2.0"
+repository  = "https://github.com/maibloom/keyarray"
+homepage    = "https://github.com/maibloom/keyarray"
+keywords   = [
+  "keyarray",
+  "mode",
+  "toggle",
+  "mutually-exclusive",
+  "state",
+]
+categories = [
+  "data-structures",
+  "collections",
+]
