@@ -17,7 +17,7 @@ keywords     = [
 ]
 categories = [
   "data-structures",
-  "collections",
+  "iterators",
 ]
 
 include = [
