@@ -15,10 +15,7 @@ keywords     = [
   "mutually-exclusive",
   "state",
 ]
-categories = [
-  "data-structures",
-  "iterators",
-]
+categories = ["data-structures"]
 
 include = [
   "src/**",
